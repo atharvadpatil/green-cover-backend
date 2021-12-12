@@ -3,68 +3,50 @@ from django.shortcuts import render
 # generic base view
 from django.views.generic import TemplateView 
 
+#gee
+import ee
+ee.Initialize()
+
 
 #folium
 import folium
 from folium import plugins
 
-
-#gee
-import ee
-
-ee.Initialize()
-
+#geemap
+# import geemap
+import geemap.foliumap as geemap
 
 #home
 class home(TemplateView):
     template_name = 'index.html'
 
-    # Define a method for displaying Earth Engine image tiles on a folium map.
+    
     def get_context_data(self, **kwargs):
-
         figure = folium.Figure()
+        map = geemap.Map(center=[40,-100], zoom=4)
+
+        image = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR').filterDate('2021-10-01', '2021-10-31').min()
+
+        #NDVI
+        nir = image.select('B5')
+        red = image.select('B4')
+        ndvi = nir.subtract(red).divide(nir.add(red)).rename('NDVI')
+        ndviParams = {'min': -1, 'max': 1, 'palette': ['blue', 'white', 'green']}
+
+        #EVI
+        evi = image.expression(
+            '2.5 * ((NIR - RED) / (NIR + 6 * RED - 7.5 * BLUE + 1))', {
+            'NIR': image.select('B5'),
+            'RED': image.select('B4'),
+            'BLUE': image.select('B2')
+        })
+        eviParams = {'min': -1, 'max': 1, 'palette': ['blue', 'white', 'green']}
         
-        #create Folium Object
-        m = folium.Map(
-            location=[23.5121, 80.3288],
-            zoom_start=5
-        )
-
-        #add map to figure
-        m.add_to(figure)
-
-        
-        #select the Dataset Here's used the MODIS data
-        dataset = (ee.ImageCollection('MODIS/006/MOD13Q1')
-                  .filter(ee.Filter.date('2019-07-01', '2019-11-30'))
-                  .first())
-        modisndvi = dataset.select('NDVI')
-
-        #Styling 
-        vis_paramsNDVI = {
-            'min': 0,
-            'max': 9000,
-            'palette': [ 'FE8374', 'C0E5DE', '3A837C','034B48',]}
-
-        
-        #add the map to the the folium map
-        map_id_dict = ee.Image(modisndvi).getMapId(vis_paramsNDVI)
-       
-        #GEE raster data to TileLayer
-        folium.raster_layers.TileLayer(
-                    tiles = map_id_dict['tile_fetcher'].url_format,
-                    attr = 'Google Earth Engine',
-                    name = 'NDVI',
-                    overlay = True,
-                    control = True
-                    ).add_to(m)
-
-        
-        #add Layer control
-        m.add_child(folium.LayerControl())
-       
-        #figure 
+        #add on map
+        map.addLayer(ndvi, ndviParams, 'NDVI image')
+        map.addLayer(evi, eviParams, 'EVI image')
+        map.addLayerControl()
+        map.add_to(figure)
         figure.render()
-         
         #return map
         return {"map": figure}
