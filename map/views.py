@@ -137,13 +137,13 @@ class vegetationView(generics.GenericAPIView):
         path_indexes = os.path.join(settings.MEDIA_ROOT, "indexes_graph.png")
 
         if os.path.exists(path_ndvi):
-                os.remove(path_ndvi)
+            os.remove(path_ndvi)
 
         if os.path.exists(path_evi):
-                os.remove(path_evi)
+            os.remove(path_evi)
 
         if os.path.exists(path_indexes):
-                os.remove(path_indexes)
+            os.remove(path_indexes)
 
         admin2 = ee.FeatureCollection("FAO/GAUL_SIMPLIFIED_500m/2015/level2")
         Maharashtra = admin2.filter(ee.Filter.eq('ADM1_NAME', 'Maharashtra'))
@@ -163,10 +163,12 @@ class vegetationView(generics.GenericAPIView):
                                         'reducer': ee.Reducer.mean(),
                                         'scale': 1000,
                                         'xProperty': 'system:time_start'})
+
         fig, ax = plt.subplots(figsize=(10, 4))
         ax.plot(m_ndvi.dataframe.index, m_ndvi.dataframe['NDVI'],
                 color='forest green', marker='o')
         ax.set_ylabel('NDVI')
+
         plt.savefig(path_ndvi, dpi=300)
 
         m_evi = chart.Image.series(**{'imageCollection': scaled_evi,
@@ -179,6 +181,7 @@ class vegetationView(generics.GenericAPIView):
         ax.plot(m_evi.dataframe.index, m_evi.dataframe['EVI'],
                 color='brown', marker='+')
         ax.set_ylabel('EVI')
+
         plt.savefig(path_evi, dpi=300)
 
         # monthly averaging
@@ -187,20 +190,25 @@ class vegetationView(generics.GenericAPIView):
 
         # time index
         time = m_evi_monthly.index
+
         # plot
         fig, ax1 = plt.subplots(figsize=(10, 4))
         ax2 = ax1.twinx()
+
         # EVI
         ax1.plot(time, m_evi_monthly, label='EVI',
                 color='brown', marker='+')
+
         # NDVI
         ax2.plot(time, m_ndvi_monthly, label='NDVI',
                 color='forest green', marker='o')
+
         ax1.set_xlabel('Time')
         ax1.set_ylabel('EVI')
         ax2.set_ylabel('NDVI')
         ax1.set_yticks(np.arange(0.0, 1.1, 0.1))
         ax2.set_yticks(np.arange(0.0, 1.1, 0.1))
+
         plt.legend()
         plt.tight_layout()
         plt.savefig(path_indexes, dpi=300)
