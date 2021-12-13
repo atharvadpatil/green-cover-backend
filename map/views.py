@@ -71,8 +71,14 @@ class airQualityIndexView(generics.GenericAPIView):
         dataset_list=["Sentinel-5P NRTI AER AI: Near Real-Time UV Aerosol Index", "Sentinel-5P NRTI CO: Near Real-Time Carbon Monoxide", "Sentinel-5P NRTI NO2: Near Real-Time Nitrogen Dioxide", "Sentinel-5P NRTI HCHO: Near Real-Time Formaldehyde"]
 
         data_dict = {
+            'name': 'Air Quality Analysis of Maharashtra',
+            'description': 'Map representing air quality of Maharashtra',
             'map_url': 'http://localhost:8866/voila/render/AirQualityIndex.ipynb',
-            'dataset': dataset_list
+            'dataset': dataset_list,
+            'dataset_url': ['https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S5P_NRTI_L3_AER_AI', 'https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S5P_NRTI_L3_CO', 'https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S5P_NRTI_L3_NO2', 'https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S5P_NRTI_L3_HCHO'],
+
+            'instructions': 'The rendered map is pannable and zoomable, use it accordingly\\nClick on the globe icon (located top-left) to search and mark a specific location\\nRefer the legend to interpret the data presented on the map\\nClick on the toolbar on the top-right corner and select layers to switch between layers (Absorbing Aerosol Index (AAI), Carbon monoxide (CO), Nitrogen oxides (NO2 and NO), AtmosphericFormaldehyde (HCHO) and google maps).\\nUse the slider alongside to adjust the opacity'
+
         }
 
         return Response({'response_data':data_dict}, status=status.HTTP_200_OK)
@@ -84,8 +90,13 @@ class landCoverView(generics.GenericAPIView):
         dataset_list=["USGS Landsat 8 Level 2, Collection 2, Tier 1", "MCD12Q1.006 MODIS Land Cover Type Yearly Global 500m"]
 
         data_dict = {
+            'name': 'Landcover Analysis of Maharashtra',
+            'description': 'Map representing predicted landcover of Maharashtra using supervised classification technique',
             'map_url': 'http://localhost:8866/voila/render/LandCover.ipynb',
-            'dataset': dataset_list
+            'dataset': dataset_list,
+            'dataset_url': ['https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_LC08_C02_T1_L2', 'https://developers.google.com/earth-engine/datasets/catalog/MODIS_006_MCD12Q1'],
+
+            'instructions': 'The rendered map is pannable and zoomable, use it accordingly\\nClick on the globe icon (located top-left) to search and mark a specific location\\nRefer the legend to interpret the data presented on the map\\nClick on the toolbar on the top-right corner and select layers to switch between layers (landsat8, training points, landcover(result), original MODIS for comparision and google maps).\\nUse the slider alongside to adjust the opacity'
         }
 
         return Response({'response_data':data_dict}, status=status.HTTP_200_OK)
@@ -93,11 +104,16 @@ class landCoverView(generics.GenericAPIView):
 
 class ndviTimelapseView(generics.GenericAPIView):
     def get(self, request):
-        dataset_list=["MOD13Q1.006 MODIS Terra Vegetation Indices 16-Day Global 250m"] #check dataset for add_landsat_ts_gif 
+        dataset_list=["USGS Landsat 8 Level 2, Collection 2, Tier 1", "USGS Landsat 5 Level 2, Collection 2, Tier 1"] 
 
         data_dict = {
+            'name': 'Timelapse for Normalized Difference Vegetation Index (NDVI) (Global)',
+            'description': 'Map to generate timelapse for Normalized Difference Vegetation Index (NDVI) (Global) of selected region',
             'map_url': 'http://localhost:8866/voila/render/NdviTimelapse.ipynb',
-            'dataset': dataset_list
+            'dataset': dataset_list,
+            'dataset_url': ['https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_LC08_C02_T1_L2', 'https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_LT05_C02_T1_L2'],
+
+            'instructions': 'The rendered map is pannable and zoomable, use it accordingly\\nClick on the globe icon (located top-left) to search and mark a specific location\\nA darker shade of green represents more vegetation and lighter or blue shade represents less or no vegetation respectively\\nUse the rectangular selection tool present on the left side of the map to define the boundary for the timelapse\\nSelect the start year, start month, end year and end month from the sliders provided\\nClick on the create timelapse button and wait patiently ⏰ (2 mins) to see the timplase GIF render on the map itself\\nClick on the toolbar and click on layers. Select the secondary layer icon below and uncheck timelapse ND to see the timelapse without contrast.',
         }
 
         return Response({'response_data':data_dict}, status=status.HTTP_200_OK)
@@ -112,8 +128,14 @@ class vegetationView(generics.GenericAPIView):
         dataset_list=["USGS Landsat 8 Level 2, Collection 2, Tier 1"]
 
         data_dict = {
+            'name': 'Estimating Green Cover using Vegetation Indexes (Global)',
+            'description': 'Map representing green cover for desired MM/YYYY based on NDVI and EVI indexes',
             'map_url': 'http://localhost:8866/voila/render/Vegetation.ipynb',
-            'dataset': dataset_list
+            'dataset': dataset_list,
+            'dataset_url': 'https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_LC08_C02_T1_L2',
+
+            'instructions': 'The rendered map is pannable and zoomable, use it accordingly\\nClick on the globe icon (located top-left) to search and mark a specific location\\nA darker shade of green represents more vegetation and lighter or blue shade represents less or no vegetation respectively\\nClick on the toolbar on the top-right corner and select layers to switch between layers (NDVI, NVI and google maps).\\nUse the slider alongside to adjust the opacity\\nSelect the year(Y) and month(M) to get the respective map for that month (01-MM-YYYY to 30-MM-YYYY)'
+            
         }
 
         return Response({'response_data':data_dict}, status=status.HTTP_200_OK)
