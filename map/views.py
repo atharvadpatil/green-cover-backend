@@ -124,6 +124,10 @@ class vegetationView(generics.GenericAPIView):
         end_date = request.data.get('end_date', '')
         st_date = start_date.replace("-", "")
         ed_date = end_date.replace("-", "")
+
+        if int(st_date) < 20020218 or int(ed_date) < 20020218:
+            return Response({"message":"Date must be greater than 2002-02-18"}, status=status.HTTP_400_BAD_REQUEST)
+
         if int(st_date)> int(ed_date):
             return Response({"message":"Start date should not be greater than End date"}, status=status.HTTP_400_BAD_REQUEST)
         
