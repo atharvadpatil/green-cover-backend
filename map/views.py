@@ -38,6 +38,10 @@ import matplotlib.pyplot as plt
 from ipygee import chart
 from pandas.plotting import register_matplotlib_converters
 
+
+#import from other file
+from .utils import Util
+
 #home
 class home(TemplateView):
     template_name = 'index.html'
@@ -261,6 +265,12 @@ class VolunteerView(generics.GenericAPIView):
 
         volunteer_data = serializer.data
 
+        volunteer = Volunteer.objects.get(email=volunteer_data['email'])
+        email_body = "Hello "+volunteer.name+",\n\nWelcome to Green Cover Analytics Tool, a initiative by team Binary\n\n"+"Thank you for becoming a volunteer.\n\nWe will contact you soon regarding our green drive to reduce green cover depletion and spread awareness in "+ volunteer.city+", Maharashtra-"+ str(volunteer.pincode) +".\n\nRegards Team Binary"
+        data = {'email_body': email_body, 'to_email': volunteer.email,
+                'email_subject': 'Welcome'}
+
+        Util.send_email(data)
         return Response(volunteer_data, status=status.HTTP_201_CREATED)
 
 
