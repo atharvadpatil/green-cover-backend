@@ -11,6 +11,9 @@ from .serializers import (
     VolunteerSerializer
 )
 
+#models
+from .models import Volunteer
+
 # generic base view
 from django.views.generic import TemplateView 
 
@@ -259,3 +262,19 @@ class VolunteerView(generics.GenericAPIView):
         volunteer_data = serializer.data
 
         return Response(volunteer_data, status=status.HTTP_201_CREATED)
+
+
+class AdminView(generics.GenericAPIView):
+    serializer_class = VolunteerSerializer
+
+    def post(self, request):
+        username = request.data.get('username')
+        password = request.data.get('password')
+
+        if(username != "admin" or password != "admin" ):
+            return Response({'response':'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+
+        volunteers = Volunteer.objects.all().order_by('city')
+        volunteers_serializer = VolunteerSerializer(instance=volunteers, many=True)
+
+        return Response(volunteers_serializer.data,  status=status.HTTP_200_OK)
