@@ -6,6 +6,11 @@ from django. conf import settings
 from rest_framework import generics, status, views, permissions
 from rest_framework.response import Response
 
+#serializers
+from .serializers import (
+    VolunteerSerializer
+)
+
 # generic base view
 from django.views.generic import TemplateView 
 
@@ -240,3 +245,17 @@ class vegetationView(generics.GenericAPIView):
             'evi_graph':"http://127.0.0.1:8000/media/evi_graph.png",
             'indexes_graph':"http://127.0.0.1:8000/media/indexes_graph.png"    
         }, status=status.HTTP_200_OK)
+
+
+class VolunteerView(generics.GenericAPIView):
+    serializer_class = VolunteerSerializer
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+
+        volunteer_data = serializer.data
+
+        return Response(volunteer_data, status=status.HTTP_201_CREATED)
