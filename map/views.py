@@ -85,7 +85,7 @@ class airQualityIndexView(generics.GenericAPIView):
         data_dict = {
             'name': 'Air Quality Analysis of Maharashtra',
             'description': 'Map representing air quality of Maharashtra',
-            'map_url': 'http://localhost:8866/voila/render/AirQualityIndex.ipynb',
+            'map_url': 'https://gcnotebooks.herokuapp.com/voila/render/AirQualityIndex.ipynb',
             'dataset': dataset_list,
             'dataset_url': ['https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S5P_NRTI_L3_AER_AI', 'https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S5P_NRTI_L3_CO', 'https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S5P_NRTI_L3_NO2', 'https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S5P_NRTI_L3_HCHO'],
 
@@ -104,7 +104,7 @@ class landCoverView(generics.GenericAPIView):
         data_dict = {
             'name': 'Landcover Analysis of Maharashtra',
             'description': 'Map representing predicted landcover of Maharashtra using supervised classification technique',
-            'map_url': 'http://localhost:8866/voila/render/LandCover.ipynb',
+            'map_url': 'https://gcnotebooks.herokuapp.com/voila/render/LandCover.ipynb',
             'dataset': dataset_list,
             'dataset_url': ['https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_LC08_C02_T1_L2', 'https://developers.google.com/earth-engine/datasets/catalog/MODIS_006_MCD12Q1'],
 
@@ -121,7 +121,7 @@ class ndviTimelapseView(generics.GenericAPIView):
         data_dict = {
             'name': 'Timelapse for Normalized Difference Vegetation Index (NDVI) (Global)',
             'description': 'Map to generate timelapse for Normalized Difference Vegetation Index (NDVI) (Global) of selected region',
-            'map_url': 'http://localhost:8866/voila/render/NdviTimelapse.ipynb',
+            'map_url': 'https://gcnotebooks.herokuapp.com/voila/render/NdviTimelapse.ipynb',
             'dataset': dataset_list,
             'dataset_url': ['https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_LC08_C02_T1_L2', 'https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_LT05_C02_T1_L2'],
 
@@ -142,7 +142,7 @@ class vegetationView(generics.GenericAPIView):
         data_dict = {
             'name': 'Estimating Green Cover using Vegetation Indexes (Global)',
             'description': 'Map representing green cover for desired MM/YYYY based on NDVI and EVI indexes',
-            'map_url': 'http://localhost:8866/voila/render/Vegetation.ipynb',
+            'map_url': 'https://gcnotebooks.herokuapp.com/voila/render/Vegetation.ipynb',
             'dataset': dataset_list,
             'dataset_url': 'https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_LC08_C02_T1_L2',
 
