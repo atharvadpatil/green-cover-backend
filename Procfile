@@ -1,1 +1,1 @@
-web: gunicorn greencover.wsgi
+web: gunicorn greenCover.wsgi
