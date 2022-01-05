@@ -8,6 +8,7 @@ from .views import (
     VolunteerView, 
     AdminView, 
     EventView,
+    GetEventView,
     StatiscticsView
 )
 
@@ -22,7 +23,7 @@ urlpatterns = [
     path('get-volunteers', AdminView.as_view(), name="get-volunteers"),
 
     path('create-event', EventView.as_view(), name="create-event"),
-    # path('get-event', AdminView.as_view(), name="get-volunteers"),
+    path('get-event', GetEventView.as_view(), name="get-event"),
 
     path('statistics', StatiscticsView.as_view(), name="statistics"),
 

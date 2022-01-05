@@ -308,6 +308,20 @@ class EventView(generics.GenericAPIView):
         return Response(event_data, status=status.HTTP_201_CREATED)
 
 
+
+
+class GetEventView(generics.GenericAPIView):
+    serializer_class = EventSerializer
+
+    def get(self, request):
+
+        upcoming_events = Event.objects.filter(date__gt = datetime.datetime.now().date()).order_by('-date')[:5]
+
+        upcoming_events_serializer = EventSerializer(instance=upcoming_events, many=True)
+
+        return Response(upcoming_events_serializer.data,  status=status.HTTP_200_OK)
+
+
 class StatiscticsView(generics.GenericAPIView):
 
     def get(self, request):
