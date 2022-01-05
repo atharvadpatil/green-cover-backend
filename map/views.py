@@ -1,6 +1,7 @@
 import os
 from django.shortcuts import render
 from django. conf import settings
+from django.contrib.auth import authenticate, login, logout
 
 #rest import
 from rest_framework import generics, status, views, permissions
@@ -281,7 +282,8 @@ class AdminView(generics.GenericAPIView):
         username = request.data.get('username')
         password = request.data.get('password')
 
-        if(username != "admin" or password != "admin" ):
+        user = authenticate(request, username=username, password=password)
+        if user is None:
             return Response({'response':'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
 
         volunteers = Volunteer.objects.all().order_by('city')
