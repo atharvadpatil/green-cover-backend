@@ -9,7 +9,8 @@ from rest_framework.response import Response
 
 #serializers
 from .serializers import (
-    VolunteerSerializer
+    VolunteerSerializer,
+    EventSerializer
 )
 
 #models
@@ -290,3 +291,17 @@ class AdminView(generics.GenericAPIView):
         volunteers_serializer = VolunteerSerializer(instance=volunteers, many=True)
 
         return Response(volunteers_serializer.data,  status=status.HTTP_200_OK)
+
+
+class EventView(generics.GenericAPIView):
+    serializer_class = EventSerializer
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+
+        event_data = serializer.data
+
+        return Response(event_data, status=status.HTTP_201_CREATED)

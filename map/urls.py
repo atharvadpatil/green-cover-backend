@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import home, airQualityIndexView, landCoverView, ndviTimelapseView, vegetationView, VolunteerView, AdminView
+from .views import home, airQualityIndexView, landCoverView, ndviTimelapseView, vegetationView, VolunteerView, AdminView, EventView
 
 urlpatterns = [
     path('foliumexample', home.as_view(), name="home"),
@@ -10,5 +10,8 @@ urlpatterns = [
 
     path('create-volunteer', VolunteerView.as_view(), name="create-volunteer"),
     path('get-volunteers', AdminView.as_view(), name="get-volunteers"),
+
+    path('create-event', EventView.as_view(), name="create-event"),
+    # path('get-event', AdminView.as_view(), name="get-volunteers"),
 
 ]
