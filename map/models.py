@@ -19,6 +19,7 @@ class Event(models.Model):
     address = models.CharField(max_length=255)
     date = models.DateField()
     details = models.CharField(max_length=255)
+    notify = models.BooleanField()
     
     def __str__(self):
         return f"{self.name}"
