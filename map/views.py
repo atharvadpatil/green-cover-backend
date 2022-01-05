@@ -2,6 +2,7 @@ import os
 from django.shortcuts import render
 from django. conf import settings
 from django.contrib.auth import authenticate, login, logout
+import datetime
 
 #rest import
 from rest_framework import generics, status, views, permissions
@@ -14,7 +15,7 @@ from .serializers import (
 )
 
 #models
-from .models import Volunteer
+from .models import Volunteer, Event
 
 # generic base view
 from django.views.generic import TemplateView 
@@ -305,3 +306,22 @@ class EventView(generics.GenericAPIView):
         event_data = serializer.data
 
         return Response(event_data, status=status.HTTP_201_CREATED)
+
+
+class StatiscticsView(generics.GenericAPIView):
+
+    def get(self, request):
+        
+        volunteers_count = Volunteer.objects.count()
+        total_events_count = Event.objects.count()
+        upcoming_events_count = Event.objects.filter(date__gt = datetime.datetime.now().date()).count()
+        trees_planted = 212
+        
+        resp = {
+                    'volunteers': volunteers_count,
+                    'planted': trees_planted,
+                    'total_events': total_events_count,
+                    'upcoming_events': upcoming_events_count,
+                }
+
+        return Response(resp, status=status.HTTP_200_OK)
