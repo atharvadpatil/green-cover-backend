@@ -269,8 +269,9 @@ class VolunteerView(generics.GenericAPIView):
         volunteer_data = serializer.data
 
         volunteer = Volunteer.objects.get(email=volunteer_data['email'])
+        to_email=[volunteer.email]
         email_body = "Hello "+volunteer.name+",\n\nWelcome to Green Cover Analytics Tool, a initiative by team Binary\n"+"Thank you for becoming a volunteer.\nWe will contact you soon regarding our green drive to reduce green cover depletion and spread awareness in "+ volunteer.city+", Maharashtra-"+ str(volunteer.pincode) +".\n\nThanks and Regards,\nTeam Binary"
-        data = {'email_body': email_body, 'to_email': volunteer.email,
+        data = {'email_body': email_body, 'to_email': to_email,
                 'email_subject': 'Welcome'}
 
         Util.send_email(data)
@@ -304,7 +305,13 @@ class EventView(generics.GenericAPIView):
             serializer.save()
 
         event_data = serializer.data
-
+        if event_data["notify"]:
+            city = event_data["city"]
+            email_list = list(Volunteer.objects.values_list('email', flat=True).filter(city=city))
+            email_body = "Team Binary invites you to join campaign in your city.\nDeatils are give below:\nName of campaign:"+event_data["name"]+"\nAddress:"+event_data["address"]+"\nDate:"+event_data["date"]+"\nInstructions:"+event_data["details"]+"\n\nThanks and Regards,\nTeam Binary"
+            data = {'email_body': email_body, 'to_email': email_list,
+                'email_subject': 'Invitation To campaign'}
+            Util.send_email(data)
         return Response(event_data, status=status.HTTP_201_CREATED)
 
 
