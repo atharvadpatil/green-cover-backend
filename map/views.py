@@ -354,7 +354,7 @@ class LandCoverClassificationView(generics.GenericAPIView):
         maharashtra = admin.filter(ee.Filter.eq('ADM1_NAME', 'Maharashtra'))
 
         data={}
-        for j in range(2019, 2021):
+        for j in range(2001, 2021):
             start_date=str(j)+'-01-01'
             end_date=str(j)+'-12-31'
             landcover = ee.ImageCollection('MODIS/006/MCD12Q1') \
@@ -368,5 +368,13 @@ class LandCoverClassificationView(generics.GenericAPIView):
                 areaImage = u.multiply(ee.Image.pixelArea())
                 area = areaImage.reduceRegion(reducer=ee.Reducer.sum(), geometry=maharashtra.geometry(), scale=500, maxPixels=1e10)
                 urbanAreaSqKm = ee.Number(area.get('LC_Type1_mean')).divide(1e6)
-                data[j][i]=urbanAreaSqKm.getInfo()
+                data[j][i]={}
+                if j==2001:
+                    data[j][i]['area']=urbanAreaSqKm.getInfo()
+                    data[j][i]['area_changed']=0
+                    data[j][i]['percent_change']=0
+                else:
+                    data[j][i]['area']=urbanAreaSqKm.getInfo()
+                    data[j][i]['area_changed']=data[j-1][i]['area']-data[j][i]['area']
+                    data[j][i]['percent_change']=(data[j-1][i]['area']-data[j][i]['area'])/307990*100
         return Response(data, status=status.HTTP_200_OK)
