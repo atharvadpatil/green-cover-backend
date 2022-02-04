@@ -9,7 +9,8 @@ from .views import (
     AdminView, 
     EventView,
     GetEventView,
-    StatiscticsView
+    StatiscticsView,
+    LandCoverClassificationView
 )
 
 urlpatterns = [
@@ -26,5 +27,7 @@ urlpatterns = [
     path('get-event', GetEventView.as_view(), name="get-event"),
 
     path('statistics', StatiscticsView.as_view(), name="statistics"),
+
+    path('landcoverclassification', LandCoverClassificationView.as_view(), name="landcoverclassification")
 
 ]
