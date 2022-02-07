@@ -92,7 +92,7 @@ class airQualityIndexView(generics.GenericAPIView):
             'dataset': dataset_list,
             'dataset_url': ['https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S5P_NRTI_L3_AER_AI', 'https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S5P_NRTI_L3_CO', 'https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S5P_NRTI_L3_NO2', 'https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S5P_NRTI_L3_HCHO'],
 
-            'instructions': 'The rendered map is pannable and zoomable, use it accordingly\\nSelect the year(Y) to get the respective air quality map for that year (01-01-YYYY to 30-12-YYYY)\\nClick on the globe icon (located top-left) to search and mark a specific location\\nRefer the legend to interpret the data presented on the map\\nClick on the toolbar on the top-right corner and select layers to switch between layers (Absorbing Aerosol Index (AAI), Carbon monoxide (CO), Nitrogen oxides (NO2 and NO), AtmosphericFormaldehyde (HCHO) and google maps).\\nUse the slider alongside to adjust the opacity'
+            'instructions': 'The rendered map is pannable and zoomable, use it accordingly\\nSelect the year(Y) and month(M) to get the respective map for that month (01-MM-YYYY to 30-MM-YYYY)\\nClick on the globe icon (located top-left) to search and mark a specific location\\nRefer the legend to interpret the data presented on the map\\nClick on the toolbar on the top-right corner and select layers to switch between layers (Absorbing Aerosol Index (AAI), Carbon monoxide (CO), Nitrogen oxides (NO2 and NO), AtmosphericFormaldehyde (HCHO) and google maps).\\nUse the slider alongside to adjust the opacity'
 
         }
 
