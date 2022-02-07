@@ -51,6 +51,7 @@ _green-cover is a project that helps in analysing geo-mapped aerial data to esti
 | `GET` | `/vegetation` | To get vegetation map and related data |
 | `GET` | `/ndvitimelapse` | To get NDVI timelapse map and related data |
 | `GET` | `/landcover` | To get landcover map and related data |
+| `GET` | `/landcoverclassification` | To get land cover classification data (area & change) from 2001 to 2020 |
 | `GET` | `/airqualityindex` | To get airquality map and related data |
 | `POST` | `/vegetation` | To get NDVI and EVI graphs based on selected time range |
 | `POST` | `/create-volunteer` | To create a volunteer |
